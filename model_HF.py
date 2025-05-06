@@ -449,6 +449,14 @@ class GPT(PreTrainedModel):
         for block in self.transformer.h:
             if hasattr(block.attn, 'bias'):
                 block.attn.bias = block.attn.bias[:,:,:block_size,:block_size]
+    
+    @classmethod
+    def from_pretrained(cls, pretrained_model_name_or_path, *args, **kwargs):
+        model = super().from_pretrained(pretrained_model_name_or_path, *args, **kwargs)
+        
+        # 2) re‐apply your weight‐tie
+        model.transformer.wte.weight = model.lm_head.weight
+        return model
 
     # @classmethod
     # def from_pretrained(cls, model_type, override_args=None):
