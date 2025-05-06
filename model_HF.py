@@ -454,7 +454,7 @@ class GPT(PreTrainedModel):
     def from_pretrained(cls, pretrained_model_name_or_path, *args, **kwargs):
         model = super().from_pretrained(pretrained_model_name_or_path, *args, **kwargs)
         
-        # 2) re‐apply your weight‐tie
+        # 2) re‐apply weight‐tie
         model.transformer.wte.weight = model.lm_head.weight
         return model
 
